@@ -25,14 +25,7 @@ const ChatBox = ({reciever,messages,currChat,setMessages})=>{
    useEffect(()=>{
     // recieve message 
     if(socket==null) return;
-<<<<<<< HEAD
     socket.on("getMessage",(res)=>{
-=======
-  
-    socket.on("getMessage",(res)=>{
-      console.log(currChat);
-      console.log("currchat =" + reciever.id, "resChatid ="+res.recipientId);
->>>>>>> d755593e57dbfa91cf6700b9a67c3f2e3c661e7e
       if(currChat && currChat.chatId==res.chatId){ // check it is belong to recipient
          SetTmpMessages([...res.message]);
       }
