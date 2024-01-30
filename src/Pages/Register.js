@@ -2,10 +2,11 @@ import { Link,useNavigate } from "react-router-dom";
 import { useState,useContext } from "react";
 import { postRequest,baseUrl } from "../utils/service";
 import AuthContext from "../Context/AuthContext";
+import Loader from "../Components/Loader/Loader";
 
 const Register = ()=>{
   const navigate = useNavigate();
-const {Setuser} = useContext(AuthContext);
+const {Setuser,loading,setLoading} = useContext(AuthContext);
 
   const [regError,setRegError] = useState({error:false,message:""});
   const [registerUserInfo,registerUser] = useState({
@@ -18,20 +19,27 @@ const {Setuser} = useContext(AuthContext);
 
   async function handleSubmit(e){
    e.preventDefault();
+   setLoading(true);
+   
    let response = await postRequest(`${baseUrl}/user/register`,registerUserInfo);
   //  console.log(response);
    if(response.error){
       setRegError(response);
+      setLoading(false);
    }
    else{
     Setuser(response);
     setRegError({error:false,message:""});
+    setLoading(false)
      navigate("/chat")
    }
   }
-
-  
-
+ if(loading){
+  return (
+    <Loader/>
+  )
+ }
+  else {
     return (
         <div className="formContainer">
         <div className="formWrapper">
@@ -55,6 +63,7 @@ const {Setuser} = useContext(AuthContext);
         </div>
       </div>
     )
+          }
 }
 
 export default Register;

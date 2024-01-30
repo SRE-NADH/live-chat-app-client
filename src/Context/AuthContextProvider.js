@@ -9,6 +9,7 @@ const AuthContextProvider = (props)=>{
     const [Users,setUsers] = useState(null);
     const [socket,setSocket] = useState(null);
     const [onlineUsers,setOnlineUsers] =useState([]);
+    const [loading,setLoading] = useState(false);
   
 
     useEffect(()=>{
@@ -59,7 +60,7 @@ const AuthContextProvider = (props)=>{
 
 
     return (
-        <AuthContext.Provider value={{User,Setuser,logout,Users,onlineUsers,socket}} >
+        <AuthContext.Provider value={{User,Setuser,logout,Users,onlineUsers,socket,loading,setLoading}} >
             {props.children}
         </AuthContext.Provider>
     )

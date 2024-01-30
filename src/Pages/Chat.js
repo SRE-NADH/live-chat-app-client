@@ -5,9 +5,10 @@ import AuthContext from "../Context/AuthContext";
 import { getRequest,baseUrl, postRequest } from "../utils/service";
 import ChatBox from "../Components/ChatBox";
 import UserDiv from "../Components/UserDiv";
+import Loader from "../Components/Loader/Loader";
 
 const Chat = ()=>{
-   const {User,Users,onlineUsers} = useContext(AuthContext);
+   const {User,Users,onlineUsers,loading,setLoading} = useContext(AuthContext);
    const [chatList,SetChatList] = useState([]);
    const [reciever,setReciever] = useState(null);
    const [messages,setMessages]  = useState([]);
@@ -23,9 +24,11 @@ const Chat = ()=>{
 
 
     async function fetchChatData(){
+       setLoading(true);
         const response = await getRequest(`${baseUrl}/chat/${User.id}`);
         let list = getUsers(response);
         SetChatList(list);
+        setLoading(false);
     }
       // return an array of users list
       function getUsers(response){
@@ -55,6 +58,12 @@ const Chat = ()=>{
      }
 
    }
+    if(loading){
+      return(
+        <Loader/>
+      )
+    }
+    else{
     return (
         <div className="chat">
             <ButtonAppBar/>
@@ -86,6 +95,7 @@ const Chat = ()=>{
             
         </div>
     )
+              }
 }
 
 export default Chat;
